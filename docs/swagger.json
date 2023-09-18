@@ -1,0 +1,354 @@
+{
+    "openapi": "3.1.0",
+    "info": {
+      "title": "Obras de Arte",
+      "summary": "Essa API é parte integrante de um sistema para um museu.",
+      "description": "API criada para o trabalho de arquitetura de soluções - PUC 2023 \n \n Integrantes do grupo: \n \n <ul><li>Carolina Muniz</li><li>Danielle Cristina de Barros</li><li>Mariene Bianca Florêncio</li><li>Otávio Aurélio Silva Carneiro</li></ul>", 
+      "termsOfService": "https://example.com/terms/",
+      "contact": {
+        "name": "API Support - Grupo PUC",
+        "url": "https://www.example.com/support",
+        "email": "daniellebarro.33@gmail.com"
+      },
+      "license": {
+      "name": "Apache 2.0 - Exemplo",
+      "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
+      },
+      "version": "1.0.0"
+    },
+    "paths": {
+      "/obra": {
+        "post": {
+          "summary": "Criar obra de arte",
+          "description": "Cria uma nova obra de arte.",
+          "tags": ["obra"],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "titulo": {
+                      "type": "string"
+                    },
+                    "autor": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Obra de arte criada com sucesso.",
+              "tags": ["operation"],
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer"
+                      },
+                      "titulo": {
+                        "type": "string"
+                      },
+                      "autor": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Token inválido ou não fornecido."
+            }
+          }
+        },
+        "get": {
+            "summary": "Listar obras de arte",
+            "description": "Lista todas as obras de arte com opções de filtro, paginação e ordenação.",
+            "tags": ["obra"],
+            "security": [
+              {
+                "bearerAuth": []
+              }
+            ],
+            "parameters": [
+              {
+                "name": "titulo",
+                "in": "query",
+                "description": "Filtre por título da obra de arte.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              {
+                "name": "autor",
+                "in": "query",
+                "description": "Filtre por autor da obra de arte.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              {
+                "name": "page",
+                "in": "query",
+                "description": "Número da página para paginação.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              {
+                "name": "limit",
+                "in": "query",
+                "description": "Quantidade de resultados por página.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              {
+                "name": "sort",
+                "in": "query",
+                "description": "Ordenação dos resultados. Formato: campo:ordem (e.g., titulo:asc).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "Lista de obras de arte.",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "titulo": {
+                                "type": "string"
+                              },
+                              "autor": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        },
+                        "metadata": {
+                          "type": "object",
+                          "properties": {
+                            "totalCount": {
+                              "type": "integer"
+                            },
+                            "page": {
+                              "type": "integer"
+                            },
+                            "limit": {
+                              "type": "integer"
+                            }
+                          }
+                        },
+                        "links": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "rel": {
+                                "type": "string"
+                              },
+                              "href": {
+                                "type": "string"
+                              },
+                              "method":{
+                                "type": "string"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "401": {
+                "description": "Token inválido ou não fornecido."
+              }
+            }
+          }
+        },
+      "/obra/{id}": {
+        "put": {
+          "summary": "Atualizar obra de arte por ID",
+          "description": "Atualiza uma obra de arte existente por ID.",
+          "tags": ["obra"],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "ID da obra de arte a ser atualizada."
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "titulo": {
+                      "type": "string"
+                    },
+                    "autor": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Obra de arte atualizada com sucesso.",
+              "tags": ["operation"],
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer"
+                      },
+                      "titulo": {
+                        "type": "string"
+                      },
+                      "autor": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Token inválido ou não fornecido."
+            },
+            "404": {
+              "description": "Obra de arte não encontrada."
+            }
+          }
+        },
+        "delete": {
+          "summary": "Excluir obra de arte por ID",
+          "description": "Exclui uma obra de arte existente por ID.",
+          "tags": ["obra"],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "ID da obra de arte a ser excluída."
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Obra de arte excluída com sucesso."
+            },
+            "401": {
+              "description": "Token inválido ou não fornecido."
+            },
+            "404": {
+              "description": "Obra de arte não encontrada."
+            }
+          }
+        }
+      },
+      "/login": {
+        "post": {
+          "summary": "Autenticar usuário",
+          "description": "Faça login para obter um token JWT.",
+          "tags": ["login"],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "username": {
+                      "type": "string"
+                    },
+                    "password": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Login bem-sucedido. Token JWT gerado."
+            },
+            "401": {
+              "description": "Credenciais inválidas."
+            }
+          }
+        }
+      }
+    },
+    "tags": [
+        {
+          "name": "login",
+          "description": "Endpoint de autenticação"
+        },
+        {
+          "name": "obra",
+          "description": "Endpoints CRUD para as obras de arte"
+        }
+      ],
+    "components": {
+      "securitySchemes": {
+        "bearerAuth": {
+          "type": "http",
+          "scheme": "bearer",
+          "bearerFormat": "JWT"
+        }
+      }
+    }
+  }
+  
